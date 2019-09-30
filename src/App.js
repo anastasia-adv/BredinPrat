@@ -1,26 +1,23 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Admin, Resource, ShowGuesser, EditGuesser } from 'react-admin';
+import { DealList } from './deals/Listdeals';
+import { UserList } from './users/Listusers';
+import { DealShow } from './deals/Showdeal';
+import authProvider from './admin/authProvider';
+import jsonServerProvider from 'ra-data-json-server';
+import Home from './Home';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const dataProvider = jsonServerProvider(' http://localhost:5000');
+
+const App = () => (
+    <Admin dashboard={Home} dataProvider={dataProvider} authProvider={authProvider}>
+      {permissions => [
+        <Resource name="deals" list={DealList} show={DealShow} />,
+        permissions === 'admin'
+            ?  <Resource name="users" list={UserList} />
+            : null,
+    ]}
+   </Admin>
+);
 
 export default App;

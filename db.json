@@ -1,0 +1,70 @@
+{
+  "deals": [
+    {
+      "id": 1,
+      "Target": "Electro Power Systems SA ",
+      "Target Type": "Euronext",
+      "Clearance Date": "30/05/2018",
+      "Offer Type": "OPAS",
+      "Offer Type Comments": "OPAS",
+      "Amount": 51,
+      "A":"test",
+      "B":"test2"
+    },
+    {
+      "id": 2,
+      "Target": "Vexim SA ",
+      "Target Type": "Alternext",
+      "Clearance Date": "14/11/2017",
+      "Offer Type": "OPAS",
+      "Offer Type Comments": "OPAS",
+      "Amount": 15,
+      "A":"test",
+      "B":"test2"
+    },
+    {
+      "id": 3,
+      "Target": "Netgem SA ",
+      "Target Type": "Euronext",
+      "Clearance Date": "19/09/2017",
+      "Offer Type": "OPRA",
+      "Offer Type Comments": "OPRA",
+      "Amount": 65,
+      "A":"test",
+      "B":"test2"
+    },
+    {
+      "id": 4,
+      "Target": "Ivalis (formerly L'inventoriste) ",
+      "Target Type": "Alternext",
+      "Clearance Date": "15/11/2016",
+      "Offer Type": "OPR",
+      "Offer Type Comments": "OPR \n Art. 236-1 At the request of minority shareholders",
+      "Amount": 32,
+      "A":"test",
+      "B":"test2"
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "name": "Logan Schowalter",
+      "role": "admin"
+    },
+    {
+      "id": 2,
+      "name": "Breanna Gibson",
+      "role": "user"
+    },
+    {
+      "id": 3,
+      "name": "Annamarie Mayer",
+      "role": "user"
+    },
+    {
+      "username": "admin",
+      "password": "admin",
+      "id": 4
+    }
+  ]
+}
