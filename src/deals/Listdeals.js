@@ -1,50 +1,138 @@
 import React from 'react';
-import { Filter, DateInput, ReferenceInput, SelectInput, TextInput, List, Datagrid, TextField, NumberField } from 'react-admin';
-import AddColButton from './AddColButton';
+import { List, Datagrid, TextField, NumberField } from 'react-admin';
+import Button from '@material-ui/core/Button';
+import Drawer from '@material-ui/core/Drawer';
+import Typography from '@material-ui/core/Typography';
+import Checkbox from '@material-ui/core/Checkbox';
+import {DealFilter} from './DealsFilters';
 
-const targetType = [
-    { target_type: 'Alternext' },
-    { target_type: 'Euronext' },
-];
+var arr = [];
+
+/*const AmountCursorField = ({ record = {} }) => <span>{record.firstName} {record.lastName}</span>;
+AmountCursorField.defaultProps = { label: 'Name' };*/
 
 
-const DealFilter = (props) => (
+class DealList extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            col_list:[
+                {name: "id", checked: true},
+                {name: "Target", checked: true},
+                {name: "Alternext (devenu Euronext Growth)/ Euronext", checked: false},
+                {name: "Sector", checked: false},
+                {name: "Bidder/ConcertControlling shareholder ", checked: true},
+                {name: "Pre-offer periodStarting Date ", checked: false},
+                {name: "Filing Date", checked: false},
+                {name: "Clearance Date", checked: true},
+                {name: "Offer Type ", checked: true},
+                {name: "Simultaneous offer made or registered abroad", checked: false},
+                {name: "Offers filed by PE Funds, Family office or Venture Capital Funds", checked: false},
+                {name: "Mandatory /Voluntary ", checked: false},
+                {name: "Put up Shut up", checked: false},
+                {name: "Friendly/Non-solicited ", checked: false},
+                {name: "Fairness OpinionVoluntary/Mandatory", checked: false},
+                {name: "Independent Expert", checked: false},
+                {name: "Fees of the Independent Expert When a range was indicated, we selected the highest amount", checked: false},
+                {name: "Block Purchase% ", checked: false},
+                {name: "Top Up (droit de suite) granted to the Sellers of the block", checked: false},
+                {name: "Price Adjustment of the price of the block (Complément / ajustement de prix)", checked: false},
+                {name: "Top Up (droit de suite)  granted to the minority shareholders", checked: false},
+                {name: "Price Adjustment of the Offer Price (Complément / ajustement de prix)", checked: false},
+                {name: "Squeeze out Kicker% of the Offer Price", checked: false},
+            ],
+            groupe1: ["A", "B"],
+            checkedCol: false,
+            defaultcol: true,
+            right: false,
+           };
+        this.toggleDrawer = this.toggleDrawer.bind(this);
+        this.handleChange  = this.handleChange.bind(this);
+    }
+
+    toggleDrawer(){
+        //console.log(this.state.right);
+        this.setState({right: !this.state.right}, function () {
+            //this.forceUpdate();
+            console.log(this.state.right);
+        });
+        
+    };
+
+    handleChange(elt, index){
+        console.log(elt);
+        var cloneColList = JSON.parse(JSON.stringify(this.state)).col_list;
+        cloneColList[index].checked = !elt.checked;
+        this.setState({col_list: cloneColList}, function () {
+            console.log(this.state.col_list);
+        });
+    }
     
+    shouldComponentUpdate(nextState) {
+        console.log(this.state.col_list != nextState.col_list);
+        return JSON.stringify(this.state.col_list) != JSON.stringify(nextState.col_list);
+    };
     
-    <Filter {...props}>
-        <TextInput label="Search" source="q" alwaysOn />
-        <SelectInput
-            source="Target Type"
-            choices={[
-                { id: 'Alternext', name: 'Alternext' },
-                { id: 'Euronext', name: 'Euronext' },
-            ]}
-        />
-        <SelectInput
-            source="Offer Type"
-            choices={[
-                { id: 'OPAS', name: 'OPAS' },
-                { id: 'OPRA', name: 'OPRA' },
-                { id: 'OPR', name: 'OPR' },
-            ]}
-        />
-        <DateInput source="Clearance Date" />
-        <TextInput source="Amount_gte" label="Min amount"/>
-    </Filter>
-);
+    render() {
+        const{...props} =  this.props;
 
-export const DealList = props => (
-    <div>
-        <AddColButton/>
-        <List filters={<DealFilter />} {...props}>
-            <Datagrid rowClick="show">
-                <TextField source="id" />
-                <TextField source="Target" />
-                <TextField source="Target Type" />
-                <TextField source="Clearance Date" />
-                <TextField source="Offer Type Comments" />
-                <NumberField source="Amount" options={{ style: 'currency', currency: 'EUR' }} />
-            </Datagrid>
-        </List>
-    </div>
-);
+        /*var col = [...this.state.display_col]
+        const ColToDisplay = col.flat(1).map((elt, i) => {
+            console.log(elt);
+            if(elt == "Fees of the Independent Expert When a range was indicated, we selected the highest amount"){
+                return  <NumberField key={i} source={elt} options={{ style: 'currency', currency: 'EUR' }} />;
+            }else{
+                return <TextField key={i} source={elt} />;
+            }
+        })*/
+
+        var col = [...this.state.col_list]
+        const ColToDisplay = col.map((elt, i) => {
+            //console.log(elt);
+            if(elt.checked == true){
+                if(elt.name == "Fees of the Independent Expert When a range was indicated, we selected the highest amount"){
+                    return  <NumberField key={i} source={elt.name} options={{ style: 'currency', currency: 'EUR' }} />;
+                }else{
+                    return <TextField key={i} source={elt.name} />;
+                }
+            }
+        });
+
+        const sideList = side => (
+            <div
+              role="presentation"
+            >
+                {col.map((elt, i) => {
+                    return(
+                        <label className="checkbox" key={i}>
+                            <Checkbox
+                                checked={elt.checked}
+                                onChange={() => this.handleChange(elt, i)}
+                                value={elt.checked}
+                            />
+                            <span>{elt.name}</span>
+                        </label>
+                    );
+                    
+                })}
+            </div>
+          );
+
+       
+
+        return(<div>
+            <Button onClick={this.toggleDrawer}>Open Right</Button>
+            <List  filters={<DealFilter/>} {...props} bulkActions={false}>
+                <Datagrid rowClick="show">
+                    {ColToDisplay}
+                </Datagrid>
+            </List>
+            <Drawer anchor="right" open={this.state.right} onClose={this.toggleDrawer}>
+                {sideList('right')}
+            </Drawer>
+        </div>) ;
+    }
+
+}  
+
+export default DealList;

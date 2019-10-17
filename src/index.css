@@ -13,3 +13,70 @@ code {
     monospace;
 }
 
+.col-selection{
+  height: 100%;
+  width: 200px;
+  transition: margin .5s;
+  margin: 1em -250px 1em 1em;
+}
+
+.col-selection.is-nav-open{
+  margin-right: 0;
+}
+
+.col-name{
+  padding: 0px !important;
+}
+
+.checkbox{
+  display: block;
+}
+
+.filters-panel{
+  width: 100%;
+}
+
+div[class^="CardActions-cardActions"] .filters-panel{
+  display: none;
+}
+
+.drop{
+  text-align: center;
+  border: 1px dotted grey;
+  padding: 10%;
+}
+
+.drop:hover{
+  cursor: pointer;
+}
+
+.card-actions{
+  text-align: center;
+  display: block !important;
+}
+
+div[class^="MuiAppBar-colorSecondary"]{
+  background-color: #3f51b5 !important;
+}
+
+.send-btn{
+  border-color:#2196f3 !important;
+  color: #2196f3 !important;
+}
+
+.space-up{
+  margin-top: 1%;
+}
+
+button[aria-label^="Export"]{
+  /*color: red !important;*/
+  visibility: hidden;
+}
+
+table{
+  margin-top: 2%;
+}
+
+.filters{
+  width: 50%;
+}
