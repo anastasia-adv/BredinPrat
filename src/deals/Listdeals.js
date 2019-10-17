@@ -5,6 +5,8 @@ import Drawer from '@material-ui/core/Drawer';
 import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
 import {DealFilter} from './DealsFilters';
+import {RefreshButton} from 'ra-ui-materialui';
+import CheckIcon from '@material-ui/icons/Check';
 
 var arr = [];
 
@@ -53,7 +55,6 @@ class DealList extends React.Component {
     toggleDrawer(){
         //console.log(this.state.right);
         this.setState({right: !this.state.right}, function () {
-            //this.forceUpdate();
             console.log(this.state.right);
         });
         
@@ -67,11 +68,12 @@ class DealList extends React.Component {
             console.log(this.state.col_list);
         });
     }
-    
-    shouldComponentUpdate(nextState) {
+
+    /*shouldComponentUpdate(nextState) {
+        console.log(this.props);
         console.log(this.state.col_list != nextState.col_list);
         return JSON.stringify(this.state.col_list) != JSON.stringify(nextState.col_list);
-    };
+    };*/
     
     render() {
         const{...props} =  this.props;
@@ -99,9 +101,7 @@ class DealList extends React.Component {
         });
 
         const sideList = side => (
-            <div
-              role="presentation"
-            >
+            <div className="select-col" role="presentation">
                 {col.map((elt, i) => {
                     return(
                         <label className="checkbox" key={i}>
@@ -109,8 +109,9 @@ class DealList extends React.Component {
                                 checked={elt.checked}
                                 onChange={() => this.handleChange(elt, i)}
                                 value={elt.checked}
+                                className="col-checkbox"
                             />
-                            <span>{elt.name}</span>
+                            <span className="span-checkbox">{elt.name}</span>
                         </label>
                     );
                     
@@ -121,13 +122,15 @@ class DealList extends React.Component {
        
 
         return(<div>
-            <Button onClick={this.toggleDrawer}>Open Right</Button>
-            <List  filters={<DealFilter/>} {...props} bulkActions={false}>
+            <Button onClick={this.toggleDrawer}>Select Column</Button>
+            <List  filters={<DealFilter/>} {...props} bulkActions={false} >
                 <Datagrid rowClick="show">
                     {ColToDisplay}
                 </Datagrid>
             </List>
-            <Drawer anchor="right" open={this.state.right} onClose={this.toggleDrawer}>
+            <Drawer anchor="right" open={this.state.right} onClose={this.toggleDrawer} >
+                <Typography variant="overline" className="instruction">Sélectionnez les colonnes à afficher puis clickez sur Valider.</Typography>
+                <RefreshButton label="Valider" icon={<CheckIcon/>} className="validate-selection"/>
                 {sideList('right')}
             </Drawer>
         </div>) ;

@@ -80,3 +80,24 @@ table{
 .filters{
   width: 50%;
 }
+
+.MuiDrawer-paperAnchorRight{
+  width: 300px !important;
+}
+.select-col{
+  margin-top: 3%;
+}
+
+.instruction{
+  padding: 3%;
+  text-align: center;
+}
+
+.col-checkbox {
+  display: inline-block;
+}
+
+.span-checkbox{
+  width: 85%;
+  display: inline-block;
+}
