@@ -1,12 +1,15 @@
 import React from 'react';
-import { List, Datagrid, TextField, NumberField } from 'react-admin';
+import { List, Datagrid, TextField, NumberField, downloadCSV } from 'react-admin';
 import Button from '@material-ui/core/Button';
 import Drawer from '@material-ui/core/Drawer';
 import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
 import {DealFilter} from './DealsFilters';
-import {RefreshButton} from 'ra-ui-materialui';
+import {RefreshButton, ExportButton} from 'ra-ui-materialui';
 import CheckIcon from '@material-ui/icons/Check';
+import axios from "axios";
+import { unparse as convertToCSV } from 'papaparse';
+import queryString from 'query-string';
 
 var arr = [];
 
@@ -42,6 +45,13 @@ class DealList extends React.Component {
                 {name: "Top Up (droit de suite)  granted to the minority shareholders", checked: false},
                 {name: "Price Adjustment of the Offer Price (Complément / ajustement de prix)", checked: false},
                 {name: "Squeeze out Kicker% of the Offer Price", checked: false},
+                {name: "Price increase between filing and clearance", checked: false},
+                {name: "TOA (No Shop/Break-up Fee/Reverse break-up fee/R&W) ", checked: false},
+                {name: "Break-up fee %/Deal Value on 100%", checked: false},
+                {name: "Reverse Break-up fee %/Deal Value on 100%", checked: false},
+                {name: "Shareholder's Undertaking to Tender or not to Tender ", checked: false},
+                {name: "Escrow of Target securities", checked: false},
+                {name: "Reinvestment ", checked: false},
             ],
             groupe1: ["A", "B"],
             checkedCol: false,
@@ -69,15 +79,9 @@ class DealList extends React.Component {
         });
     }
 
-    /*shouldComponentUpdate(nextState) {
-        console.log(this.props);
-        console.log(this.state.col_list != nextState.col_list);
-        return JSON.stringify(this.state.col_list) != JSON.stringify(nextState.col_list);
-    };*/
-    
     render() {
         const{...props} =  this.props;
-
+        console.log(this.props);
         /*var col = [...this.state.display_col]
         const ColToDisplay = col.flat(1).map((elt, i) => {
             console.log(elt);
@@ -89,9 +93,10 @@ class DealList extends React.Component {
         })*/
 
         var col = [...this.state.col_list]
+        var fieldsToSend = []
         const ColToDisplay = col.map((elt, i) => {
-            //console.log(elt);
             if(elt.checked == true){
+                fieldsToSend.push(elt.name);
                 if(elt.name == "Fees of the Independent Expert When a range was indicated, we selected the highest amount"){
                     return  <NumberField key={i} source={elt.name} options={{ style: 'currency', currency: 'EUR' }} />;
                 }else{
@@ -119,18 +124,49 @@ class DealList extends React.Component {
             </div>
           );
 
+        const exporter = tenderoffers => {
+            const data = tenderoffers.map(tenderoffer => ({
+                ...tenderoffer
+            }))
+            console.log(data);
+            const csv = convertToCSV({
+                data: data,
+                fields: fieldsToSend,
+                delimiter: "," 
+            });
+            //downloadCSV(csv, 'tenderoffers');
+           //var buf = new Buffer.from(JSON.stringify(csv));
+           var blob = new Blob([JSON.stringify(csv, null, 2)], {type : 'application/json'});
+           let formData = new FormData();
+           formData.append('blob', blob, 'test.csv');
+           axios({
+            method: 'post',
+            url: 'http://localhost:5000/email',
+            data: formData,
+            config: { headers: {'Content-Type': 'multipart/form-data' }},
+            validateStatus: (status) => {
+              return true; 
+            },
+          }).catch(error => {
+            console.log(error);
+          }).then(response => {
+              console.log(response);
+          });
+        }
+
        
 
         return(<div>
             <Button onClick={this.toggleDrawer}>Select Column</Button>
-            <List  filters={<DealFilter/>} {...props} bulkActions={false} >
+            {/*<ExportButton resource={tenderoffers} filters={<DealFilter/>}/>*/}
+            <List  filters={<DealFilter/>} {...props} bulkActions={false} sort={{ field: 'id', order: 'ASC' }} exporter={exporter}>
                 <Datagrid rowClick="show">
                     {ColToDisplay}
                 </Datagrid>
             </List>
             <Drawer anchor="right" open={this.state.right} onClose={this.toggleDrawer} >
                 <Typography variant="overline" className="instruction">Sélectionnez les colonnes à afficher puis clickez sur Valider.</Typography>
-                <RefreshButton label="Valider" icon={<CheckIcon/>} className="validate-selection"/>
+                <RefreshButton label="Valider" icon={<CheckIcon/>} className="validate-selection" />
                 {sideList('right')}
             </Drawer>
         </div>) ;

@@ -7,13 +7,14 @@ import DealList from './deals/Listdeals';
 import { DealShow } from './deals/Showdeal';
 import MyLayout from './layout/MyLayout';
 import authProvider from './admin/authProvider';
+import MyLoginPage from './admin/Login';
 import jsonServerProvider from 'ra-data-json-server';
 import Home from './Home';
 
 const dataProvider = jsonServerProvider(' http://localhost:5000');
 
 const App = () => (
-    <Admin dashboard={Home} dataProvider={dataProvider} authProvider={authProvider}>
+    <Admin loginPage={MyLoginPage} dashboard={Home} dataProvider={dataProvider} authProvider={authProvider}>
       {permissions => [
         <Resource name="deals" list={DealListDemo} show={DealShowDemo} />,
         <Resource name="tenderoffers" options={{ label: 'Tender Offers' }} list={DealList} show={DealShow} />,

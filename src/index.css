@@ -55,7 +55,7 @@ div[class^="CardActions-cardActions"] .filters-panel{
   display: block !important;
 }
 
-div[class^="MuiAppBar-colorSecondary"]{
+[class^="MuiAppBar-colorSecondary"]{
   background-color: #3f51b5 !important;
 }
 
@@ -69,8 +69,8 @@ div[class^="MuiAppBar-colorSecondary"]{
 }
 
 button[aria-label^="Export"]{
-  /*color: red !important;*/
-  visibility: hidden;
+  position: fixed;
+  top: 119px;
 }
 
 table{
@@ -100,4 +100,47 @@ table{
 .span-checkbox{
   width: 85%;
   display: inline-block;
+}
+
+.login-back{
+  background-image: url("IMG_3581_testBD.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
+}
+
+.login-container{
+  text-align: center;
+}
+
+.BP_logo{
+  margin-top: 3%;
+  margin-bottom: 3%;
+}
+
+.login-form{
+  /*width: 50%;*/
+  text-align: center;
+}
+
+.login-row{
+  margin-top: 15%;
+}
+
+.login-action{
+  display: block !important;
+}
+
+footer{
+  background-color: transparent;
+}
+
+.footer-adv{
+  float: right;
+}
+
+.login-btn{
+  width: 100px;
+  margin-top: 2% !important;
 }

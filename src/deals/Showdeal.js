@@ -1,8 +1,13 @@
 import React from 'react';
 import { Show, SimpleShowLayout, TextField, DateField, EditButton, RichTextField, NumberField, TabbedShowLayout, Tab } from 'react-admin';
 
+const DealTitle = ({ record }) => {
+    console.log(record);
+    return <span>{record.Target}</span>;
+};
+
 export const DealShow = (props) => (
-    <Show {...props}>
+    <Show {...props} title={<DealTitle />}>
         <TabbedShowLayout >
             <Tab label="General Info">
                 <TextField source="Target" />

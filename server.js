@@ -1,21 +1,92 @@
-// server.js
-const jsonServer = require('json-server')
+const jsonServer = require('json-server');
+const nodemailer = require('nodemailer');
+var multer  = require('multer');
+const request = require('request');
+const bcrypt = require('bcrypt');
+//var logger = require("./util/logger.js");
+
 const server = jsonServer.create()
 const router = jsonServer.router('db.json')
 const middlewares = jsonServer.defaults()
+var upload = multer()
+
+const index = (req, res) => {
+	if (req.session.connected) return res.redirect('/');
+	return res.render('signin', {
+		session: req.session,
+	});
+}
 
 server.use(middlewares)
 
-/*server.use(jsonServer.bodyParser)
-server.use((req, res, next) => {
-  if (req.method === 'POST') {
-    req.body.createdAt = Date.now()
-  }
-  // Continue to JSON Server router
-  next()
-})*/
+server.use(jsonServer.bodyParser)
+server.post('/email', upload.single('blob'), function(req, res){
+  
+  var transporter = nodemailer.createTransport({
+    host: 'smtp.orange.fr',
+    port: 25,
+    secure: false,
+    auth: {
+      user: 'anastasia.chinsky@wanadoo.fr',
+      pass: '-K`C<"tcq876`nY7'
+    },
+    tls: {
+      rejectUnauthorized:false
+    }
+  });
+  
+  var mailOptions = {
+    from: 'anastasia.chinsky@wanadoo.fr',
+    to: 'anastasia.chinsky@gmail.com',
+    subject: 'Sending Email using Node.js',
+    text:"test",
+    attachments:[{
+      filename: 'test.csv',
+      content: req.file.buffer,
+      encoding: 'utf-8'
+    }]
+  };
+  
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
+
+  res.end('email sent');
+})
+
+
+server.post('/login', function(req, res){
+  if (req.body.email && req.body.password) {
+		request('http://localhost:5000/users?email=' + req.body.email, (error, httpResponse, body) => {
+			if (error) {
+				console.log('signin() - ' + error);
+				return res.status(httpResponse).json({ message: error.message });
+			}
+			if (httpResponse.statusCode === 404) {
+				console.log('signin() - user not found : ' + req.body.email);
+				return res.status(404).json({ signin: false });
+			}
+      const user = JSON.parse(body);
+      console.log(user[0].password);
+      console.log(req.body.password);
+			if (!bcrypt.compareSync(req.body.password, user[0].password)) {
+				console.log('signin() - user authentication failed : ' + user[0].id);
+				return res.status(200).json({ signin: false });
+			}
+			console.log('signin() - user authentificated successfully : ' + user[0].id);
+			return res.status(200).json({
+				signin: true, admin: user[0].admin, id: user[0].id, email: user[0].email,
+			});
+		});
+	}
+})
 
 server.use(router)
+
 server.listen(5000, () => {
   console.log('JSON Server is running')
 })

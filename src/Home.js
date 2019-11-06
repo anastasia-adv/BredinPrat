@@ -57,13 +57,18 @@ class Home extends React.Component {
                         });
                         var numid = parseFloat(elt.id);
                         elt.id = numid;
-                        fetch('http://localhost:5000/tenderoffers', {
-                            method: 'POST',
-                            headers: {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify(elt)
+                        fetch('http://localhost:5000/tenderoffers/' + elt.id, {
+                            method: 'DELETE',
+                            headers: { 'Content-Type': 'application/json' }
+                        }).then(() =>{
+                            fetch('http://localhost:5000/tenderoffers', {
+                                method: 'POST',
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(elt)
+                            })
                         })
                     }
                 });
