@@ -3,19 +3,14 @@ const nodemailer = require('nodemailer');
 var multer  = require('multer');
 const request = require('request');
 const bcrypt = require('bcrypt');
-//var logger = require("./util/logger.js");
+var logger = require("./src/util/logger.js");
+var auth = require("./src/admin/auth.js");
+const session = require('express-session');
 
 const server = jsonServer.create()
 const router = jsonServer.router('db.json')
 const middlewares = jsonServer.defaults()
 var upload = multer()
-
-const index = (req, res) => {
-	if (req.session.connected) return res.redirect('/');
-	return res.render('signin', {
-		session: req.session,
-	});
-}
 
 server.use(middlewares)
 
@@ -58,28 +53,33 @@ server.post('/email', upload.single('blob'), function(req, res){
   res.end('email sent');
 })
 
-
+//server.post('/login', (req, res) => auth.postSignIn(req, res));
 server.post('/login', function(req, res){
-  if (req.body.email && req.body.password) {
-		request('http://localhost:5000/users?email=' + req.body.email, (error, httpResponse, body) => {
+  console.log("toto");
+  console.log(req.body);
+  if (req.body.username && req.body.password) {
+		request('http://localhost:5000/users?username=' + req.body.username, (error, httpResponse, body) => {
 			if (error) {
-				console.log('signin() - ' + error);
+				logger.error('signin() - ' + error);
 				return res.status(httpResponse).json({ message: error.message });
 			}
 			if (httpResponse.statusCode === 404) {
-				console.log('signin() - user not found : ' + req.body.email);
+				logger.warn('signin() - user not found : ' + req.body.email);
 				return res.status(404).json({ signin: false });
 			}
       const user = JSON.parse(body);
-      console.log(user[0].password);
-      console.log(req.body.password);
+      /*console.log(user[0].password);
+      console.log(req.body.password);*/
+      bcrypt.hash("adv1", 10, function(err, hash) {
+        console.log(hash);
+      });
 			if (!bcrypt.compareSync(req.body.password, user[0].password)) {
-				console.log('signin() - user authentication failed : ' + user[0].id);
+				logger.warn('signin() - user authentication failed : ' + user[0].id);
 				return res.status(200).json({ signin: false });
 			}
-			console.log('signin() - user authentificated successfully : ' + user[0].id);
+			logger.warn('signin() - user authentificated successfully : ' + user[0].id);
 			return res.status(200).json({
-				signin: true, admin: user[0].admin, id: user[0].id, email: user[0].email,
+				signin: true, admin: user[0].admin, id: user[0].id, username: user[0].username, role: user[0].role,
 			});
 		});
 	}

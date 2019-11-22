@@ -73,7 +73,9 @@ class Home extends React.Component {
                     }
                 });
                 
-            }, '')
+            }, '');
+            setTimeout(function(){ alert("La base des offres publiques a été mise à jour."); }, 3000);
+            
         }else{
             console.log("Please submit a file");
         }
@@ -81,43 +83,60 @@ class Home extends React.Component {
 
     render(){
         const{file} = this.state;
+        console.log(this.props);
+
+        if (this.props.permissions == "admin") {
+            var permission = <Card>
+            <CardHeader title="File upload" />
+            <CardContent>
+               {/*<input 
+                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" 
+                id="upload-file" 
+                style={{ display: 'none' }} 
+                type="file" 
+                onChange={this.handleChange}
+
+                /> 
+                <label htmlFor="upload-file"> 
+                <Button variant="raised" component="span"> 
+                    Select file 
+                </Button> 
+                </label> */} 
+                 <FileDrop className="drop" onDrop={this.handleChange}>
+                    Drop some files here!
+                </FileDrop>
+                <p className="file_name">{file.name}</p>
+            </CardContent>
+            <CardActions className="card-actions">
+                <Button type="submit" variant="outlined" className="send-btn" id="send-btn" onClick={this.onSubmit}>
+                    Envoyer
+                </Button>
+            </CardActions>
+        </Card>;
+        }
+
         return(
             <Grid fluid>
                 <Row>
-                <Col xs={6} md={4}>
+                <Col xs={12} md={4}>
                     <Card>
-                        <CardHeader title="Welcome to the simulation :)" />
-                        <CardContent>BP</CardContent>
+                        <img src="bpview.jpg" className="BP_view"/>
+                        <CardHeader title="Benchmark Des Offres Publiques" />
+                        <CardContent>Bienvenue dans l'outil de consultation des offres publiques. </CardContent>
                     </Card>
                 </Col>
-                <Col xs={6} md={5}>
+                <Col xs={12} md={5}>
                 <Card>
-                    <CardHeader title="File upload" />
+                    <CardHeader title="Déscription de la plateforme" />
                     <CardContent>
-                       {/*<input 
-                        accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" 
-                        id="upload-file" 
-                        style={{ display: 'none' }} 
-                        type="file" 
-                        onChange={this.handleChange}
-
-                        /> 
-                        <label htmlFor="upload-file"> 
-                        <Button variant="raised" component="span"> 
-                            Select file 
-                        </Button> 
-                        </label> */} 
-                         <FileDrop className="drop" onDrop={this.handleChange}>
-                            Drop some files here!
-                        </FileDrop>
-                        <p className="file_name">{file.name}</p>
+                        <p>Dans l'onglet Tender Offers vous avez la possibilité de consulter l'ensemble des offres publiques.</p>
+                        <p>Afin de personaliser votre recherche vous pouver appliquer des filtres spécifiques.</p>
+                        <p>Une fois votre recherche accomplie, vous pouvez exporter le tableau correspondant. L'administrateur de la plateforme en sera informé et vous enverra un fichier avec votre extracion.</p>
                     </CardContent>
-                    <CardActions className="card-actions">
-                        <Button type="submit" variant="outlined" className="send-btn" id="send-btn" onClick={this.onSubmit}>
-                            Envoyer
-                        </Button>
-                    </CardActions>
                 </Card>
+                </Col>
+                <Col xs={12} md={3}>
+                    {permission}
                 </Col>
                 </Row>
             </Grid>   

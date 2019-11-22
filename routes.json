@@ -1,4 +1,4 @@
 {
-    "/users/:email": "/users?email=:email"
+    "/users/:email": "/users?username=:username"
   
 }

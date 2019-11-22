@@ -1,10 +1,14 @@
 import React from 'react';
 import { List, Datagrid, TextField, NumberField, downloadCSV } from 'react-admin';
 import Button from '@material-ui/core/Button';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import AddBoxIcon from '@material-ui/icons/AddBox';
+import ListItemText from '@material-ui/core/ListItemText';
 import Drawer from '@material-ui/core/Drawer';
 import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
-import {DealFilter} from './DealsFilters';
+import DealFilter from './DealsFilters';
 import {RefreshButton, ExportButton} from 'ra-ui-materialui';
 import CheckIcon from '@material-ui/icons/Check';
 import axios from "axios";
@@ -22,36 +26,112 @@ class DealList extends React.Component {
         super(props);
         this.state = {
             col_list:[
+                {name: "Simultaneous offer made or registered abroad", checked: false},
+                {name: "Fairness OpinionVoluntary/Mandatory", checked: false},
+                {name: "Independent Expert", checked: false},
+                {name: "Fees of the Independent Expert When a range was indicated, we selected the highest amount", checked: false},
                 {name: "id", checked: true},
                 {name: "Target", checked: true},
                 {name: "Alternext (devenu Euronext Growth)/ Euronext", checked: false},
                 {name: "Sector", checked: false},
                 {name: "Bidder/ConcertControlling shareholder ", checked: true},
+                {name: "Offers filed by PE Funds, Family office or Venture Capital Funds", checked: false},
                 {name: "Pre-offer periodStarting Date ", checked: false},
                 {name: "Filing Date", checked: false},
                 {name: "Clearance Date", checked: true},
                 {name: "Offer Type ", checked: true},
-                {name: "Simultaneous offer made or registered abroad", checked: false},
-                {name: "Offers filed by PE Funds, Family office or Venture Capital Funds", checked: false},
+                {name: "Price Increase (Surenchère)%distinguer surenchère auto post achat/négocié", checked: false},
+                {name: "Competing Offer", checked: false},
                 {name: "Mandatory /Voluntary ", checked: false},
                 {name: "Put up Shut up", checked: false},
                 {name: "Friendly/Non-solicited ", checked: false},
-                {name: "Fairness OpinionVoluntary/Mandatory", checked: false},
-                {name: "Independent Expert", checked: false},
-                {name: "Fees of the Independent Expert When a range was indicated, we selected the highest amount", checked: false},
                 {name: "Block Purchase% ", checked: false},
                 {name: "Top Up (droit de suite) granted to the Sellers of the block", checked: false},
-                {name: "Price Adjustment of the price of the block (Complément / ajustement de prix)", checked: false},
+                {name: "Adjustment of the price of the block (Complément / ajustement de prix)", checked: false},
                 {name: "Top Up (droit de suite)  granted to the minority shareholders", checked: false},
-                {name: "Price Adjustment of the Offer Price (Complément / ajustement de prix)", checked: false},
+                {name: "Adjustment of the Offer Price (Complément / ajustement de prix)", checked: false},
                 {name: "Squeeze out Kicker% of the Offer Price", checked: false},
                 {name: "Price increase between filing and clearance", checked: false},
+                {name: "Dividend Distribution during the Offer Period", checked: false},
                 {name: "TOA (No Shop/Break-up Fee/Reverse break-up fee/R&W) ", checked: false},
                 {name: "Break-up fee %/Deal Value on 100%", checked: false},
                 {name: "Reverse Break-up fee %/Deal Value on 100%", checked: false},
                 {name: "Shareholder's Undertaking to Tender or not to Tender ", checked: false},
                 {name: "Escrow of Target securities", checked: false},
                 {name: "Reinvestment ", checked: false},
+                {name: " Management Package or other advantages granted to the managers put in place in the context of the offer(Other than Reinvestment) ", checked: false},
+                {name: "Other Agreements (Call option, SHA...) ", checked: false},
+                {name: "Pre-offer Regulatory Conditions", checked: false},
+                {name: "Other Pre-offer Conditions ", checked: false},
+                {name: "Opening of the offer subject to obtaining of regulatory authorisation (Art. 231-32, 3°)", checked: false},
+                {name: "Offer Conditions Mandatory Level of acceptances (Seuil de caducité - Art. 231-9 I)", checked: false},
+                {name: "Offer Conditions  Optional Level of acceptances(Seuil de renonciation - Art. 231-9 II)", checked: false},
+                {name: "Other Offer Conditions (As authorized by RG AMF)", checked: false},
+                {name: "Simplified offerDescription of a new strategyYes/No/ N/A", checked: false},
+                {name: "Intention to initiate a squeeze out or reserve the right to do so", checked: false},
+                {name: "Intention to Merge following the Offer", checked: false},
+                {name: "Intention to make an exceptional dividend distribution or aDebt Push Down", checked: false},
+                {name: "Intention to delist", checked: false},
+                {name: "Intention to file a repurchase offer followed by a squeeze out (OPR-RO) if the squeeze out threshold is reached subsequently", checked: false},
+                {name: "Amount of the synergies disclosed", checked: false},
+                {name: "Other Relevant Intentions ", checked: false},
+                {name: "Intent to Tender Treasury Shares", checked: false},
+                {name: "Securities Targeted by the Offer other than the shares not already owned by Bidder", checked: false},
+                {name: " Securities Excluded from the Offer", checked: false},
+                {name: "Liquidity Agreements with shareholdesFixed or Variable Price", checked: false},
+                {name: "Access to data room and inside information (other than Target BP)", checked: false},
+                {name: "Communication of the Business Plan or not (Target BP/Bidder BP/Analysts Financial Forecasts)", checked: false},
+                {name: "Net Asset Value (NAV) Actif net comptable (ANC)", checked: false},
+                {name: "Revalued Net Asset Value (RNAV) Actif net réévalué (ANR)", checked: false},
+                {name: "Analysis of trading prices Analyse du cours de bourse", checked: false},
+                {name: "Price targets from financial analysts Objectifs de cours des analystes ", checked: false},
+                {name: "DCFActualisation des flux de trésorerie disponibles", checked: false},
+                {name: " Dividend discount modelActualisation des flux de dividendes futurs", checked: false},
+                {name: "Trading multiples of comparable listed companiesMultiples boursiers de sociétés comparables", checked: false},
+                {name: "Precedent transactions Multiples de transactions comparables", checked: false},
+                {name: "Recent transaction on the Target share capital Transaction récente sur le capital", checked: false},
+                {name: "Other criteria(if any)", checked: false},
+                {name: "Deal Value for 100%(other then OPRA and share buy back)", checked: false},
+                {name: "Deal Value for the targeted shares - OPRA and share buy back", checked: false},
+                {name: "Deal value additional information  (if necessary)", checked: false},
+                {name: "Bidder's costs €  When a range was indicated, we selected the highest amount ", checked: false},
+                {name: "Cost of the block purchase included in Bidder's costs ?", checked: false},
+                {name: "Bidder's costs  % of the Deal Value ", checked: false},
+                {name: "Comments relating to premium (if necessary)", checked: false},
+                {name: "SPOT", checked: false},
+                {name: "1M/20 j", checked: false},
+                {name: "2M", checked: false},
+                {name: "3M/60 j", checked: false},
+                {name: " 6M", checked: false},
+                {name: "1Y", checked: false},
+                {name: "Reimbursement of brokerage fees ", checked: false},
+                {name: "Initial C = Share Capital VR = Voting Rights", checked: false},
+                {name: "At Filing", checked: false},
+                {name: "Before Reopening if any", checked: false},
+                {name: "End of the Offer", checked: true},
+                {name: "Market Purchase during the offer period (other than during the offer)%", checked: false},
+                {name: "Squeeze Out95% Threshold Calculation", checked: false},
+                {name: "Squeeze out Completed following the Offer", checked: false},
+                {name: "Squeeze out completed following a subsequent offer", checked: false},
+                {name: "Green Mailing preventing to reach 90% (95% until 22 July 2019) ", checked: false},
+                {name: "Ad Hoc Committee(Yes/No - Mission)", checked: false},
+                {name: "Conflicted Directors if disclosed as such in the offer document Yes/No", checked: false},
+                {name: "Abstention of the Disclosed Conflicted Directors Yes/No", checked: false},
+                {name: "Board members' Attendance/Absence", checked: false},
+                {name: "Recommendation to tender(Unanimous/Majority/No recommendation/Any specificities)", checked: false},
+                {name: "Opinion of the workers council(Information available since June 2018 only)", checked: false},
+                {name: "Litigation/Complaints relating to the offer", checked: false},
+                {name: "AMF request to appoint a new independent expert Yes/No / N/A", checked: false},
+                {name: "AMF objection to the appointment of the new independent expert proposed by Target upon AMF's requestYes/No/ N/A", checked: false},
+                {name: "AMF objection to the appointment of the independent expert proposed by Target if no ad hoc committee was set upYes/No/N/A", checked: false},
+                {name: "Simplified offerDescription of a new strategyYes/No/ N/A", checked: false},
+                {name: "Comments ", checked: false},
+                {name: "Lien à la décision de conformité de l'AMF", checked: true},
+                {name: "Lien à la note d'information ", checked: true},
+                {name: "Lien à la note en réponse ", checked: true},
+                {name: "Lien à la décision de mise en œuvre du squeeze out ", checked: true},
+                {name: "Lien au complément de la note d'information (surenchère)", checked: false},
+                {name: "Lien au complément de la note d'information 2 - (surenchère)", checked: false},
             ],
             groupe1: ["A", "B"],
             checkedCol: false,
@@ -93,23 +173,63 @@ class DealList extends React.Component {
         })*/
 
         var col = [...this.state.col_list]
+        const UrlField = ({ record, source }) => {
+            console.log(record[source]);
+            if(record[source] == "N/A"){
+                return <span>N/A</span>;
+            }
+            if(source == "Lien à la décision de conformité de l'AMF"){
+                return <a href={record[source]} target="_blank">Conformité</a>;
+            }
+            if(source == "Lien à la note d'information "){
+                return <a href={record[source]} target="_blank">Note d'information</a>;
+            }
+            if(source == "Lien à la note en réponse "){
+                return <a href={record[source]} target="_blank">Note en réponse</a>;
+            }
+            if(source == "Lien à la décision de mise en œuvre du squeeze out "){
+                return <a href={record[source]} target="_blank">Retrait obligatoire</a>;
+            }
+        
+        }
         var fieldsToSend = []
         const ColToDisplay = col.map((elt, i) => {
             if(elt.checked == true){
                 fieldsToSend.push(elt.name);
-                if(elt.name == "Fees of the Independent Expert When a range was indicated, we selected the highest amount"){
-                    return  <NumberField key={i} source={elt.name} options={{ style: 'currency', currency: 'EUR' }} />;
+                if(elt.name == "id"){
+                    return <TextField key={i} source={elt.name}/>;
                 }else{
-                    return <TextField key={i} source={elt.name} />;
+                    if(elt.name.startsWith("Lien") == true){
+                        console.log(elt.name);
+                        return <UrlField key={i} source={elt.name} sortable={false}/>;
+                    }else{
+                        if(elt.name == "Fees of the Independent Expert When a range was indicated, we selected the highest amount"){
+                            return  <NumberField key={i} source={elt.name} options={{ style: 'currency', currency: 'EUR' }} sortable={false}/>;
+                        }else{
+                            return <TextField key={i} source={elt.name} sortable={false}/>;
+                        }
+                    }
                 }
             }
         });
 
         const sideList = side => (
             <div className="select-col" role="presentation">
+                 <ul className="col-list">
                 {col.map((elt, i) => {
                     return(
-                        <label className="checkbox" key={i}>
+                        <ListItem key={i} role={undefined} dense button onClick={() => this.handleChange(elt, i)}>
+                            <ListItemIcon>
+                                <Checkbox
+                                    checked={elt.checked}
+                                    onChange={() => this.handleChange(elt, i)}
+                                    value={elt.checked}
+                                    className="col-checkbox"
+                                />
+                            </ListItemIcon>
+                            <ListItemText primary={`${elt.name}`} />
+                        </ListItem>
+                        /*<label className="checkbox" key={i}>
                             <Checkbox
                                 checked={elt.checked}
                                 onChange={() => this.handleChange(elt, i)}
@@ -117,10 +237,11 @@ class DealList extends React.Component {
                                 className="col-checkbox"
                             />
                             <span className="span-checkbox">{elt.name}</span>
-                        </label>
+                    </label>*/
                     );
                     
                 })}
+                </ul>
             </div>
           );
 
@@ -139,7 +260,7 @@ class DealList extends React.Component {
            var blob = new Blob([JSON.stringify(csv, null, 2)], {type : 'application/json'});
            let formData = new FormData();
            formData.append('blob', blob, 'test.csv');
-           axios({
+           /*axios({
             method: 'post',
             url: 'http://localhost:5000/email',
             data: formData,
@@ -151,20 +272,20 @@ class DealList extends React.Component {
             console.log(error);
           }).then(response => {
               console.log(response);
-          });
+          });*/
         }
 
        
 
         return(<div>
-            <Button onClick={this.toggleDrawer}>Select Column</Button>
+            <Button startIcon={<AddBoxIcon color="primary"/>}  onClick={this.toggleDrawer}>Add Columns</Button>
             {/*<ExportButton resource={tenderoffers} filters={<DealFilter/>}/>*/}
             <List  filters={<DealFilter/>} {...props} bulkActions={false} sort={{ field: 'id', order: 'ASC' }} exporter={exporter}>
                 <Datagrid rowClick="show">
                     {ColToDisplay}
                 </Datagrid>
             </List>
-            <Drawer anchor="right" open={this.state.right} onClose={this.toggleDrawer} >
+            <Drawer anchor="right" open={this.state.right} onClose={this.toggleDrawer} className="drawer">
                 <Typography variant="overline" className="instruction">Sélectionnez les colonnes à afficher puis clickez sur Valider.</Typography>
                 <RefreshButton label="Valider" icon={<CheckIcon/>} className="validate-selection" />
                 {sideList('right')}

@@ -36,6 +36,11 @@ code {
   width: 100%;
 }
 
+.clear-filters{
+  left: 224px;
+  top: -37px;
+}
+
 div[class^="CardActions-cardActions"] .filters-panel{
   display: none;
 }
@@ -55,7 +60,11 @@ div[class^="CardActions-cardActions"] .filters-panel{
   display: block !important;
 }
 
-[class^="MuiAppBar-colorSecondary"]{
+/*[class^="MuiAppBar-colorSecondary"]{
+  background-color: #3f51b5 !important;
+}*/
+
+.MuiAppBar-colorSecondary-40{
   background-color: #3f51b5 !important;
 }
 
@@ -69,8 +78,9 @@ div[class^="CardActions-cardActions"] .filters-panel{
 }
 
 button[aria-label^="Export"]{
-  position: fixed;
-  top: 119px;
+  top: 0%;
+  margin-top: 3%;
+  position: absolute;
 }
 
 table{
@@ -82,10 +92,14 @@ table{
 }
 
 .MuiDrawer-paperAnchorRight{
-  width: 300px !important;
+  width: 400px !important;
 }
 .select-col{
   margin-top: 3%;
+}
+
+.col-list{
+  padding-left: 0 !important;
 }
 
 .instruction{
@@ -143,4 +157,20 @@ footer{
 .login-btn{
   width: 100px;
   margin-top: 2% !important;
+}
+
+.heart{
+  color: #e25555;
+}
+
+.drawer{
+  width: 200px;
+}
+
+.BP_view{
+  width: 100%;
+}
+
+td span{
+  font-size: 14px !important;
 }
