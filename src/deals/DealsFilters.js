@@ -100,7 +100,13 @@ export default function DealFilter(props) {
                         <Tab label="BIDDER'S INTENTIONS" {...a11yProps(6)} />
                         <Tab label="SHARES TARGETED OR EXCLUDED BY THE OFFER" {...a11yProps(7)} />
                         <Tab label="CW - DN" {...a11yProps(8)} />
-                        <Tab label="Filtre 10" {...a11yProps(9)} />
+                        <Tab label="PREMIUM" {...a11yProps(9)} />
+                        <Tab label="STAKE OWNED BY THE BIDDER" {...a11yProps(10)} />
+                        <Tab label="EL" {...a11yProps(11)} />
+                        <Tab label="SQUEEZE OUT" {...a11yProps(12)} />
+                        <Tab label="FAIRNESS OPINION" {...a11yProps(13)} />
+                        <Tab label="TARGET BOARD APPROVAL PROCESS" {...a11yProps(14)} />
+                        <Tab label="FR - GC" {...a11yProps(15)} />
                     </Tabs>
                 </AppBar>
                 <TabPanel value={value} index={0}>
@@ -766,14 +772,146 @@ export default function DealFilter(props) {
                         ]}
                         alwaysOn
                     />
+                    <SelectInput
+                        source="FILTREDeal Value for 100%(other then OPRA and share buy back)"
+                        label="Deal Value for 100%(other then OPRA and share buy back)"
+                        choices={[
+                            { id: '< 100M €', name: '< 100M €' },
+                            { id: '100M € - 250M€', name: '100M € - 250M€' },
+                            { id: '250M€ - 500M€', name: '250M€ - 500M€' },
+                            { id: '500M€ - 1B€', name: '500M€ - 1B€' },
+                            { id: '> 1B€', name: '> 1B€' },
+                        ]}
+                        alwaysOn
+                    />
+                    <SelectInput
+                        source="FILTERDeal Value for the targeted shares - OPRA and share buy back"
+                        label="Deal Value for the targeted shares - OPRA and share buy back"
+                        choices={[
+                            { id: '< 100M €', name: '< 100M €' },
+                            { id: '100M € - 250M€', name: '100M € - 250M€' },
+                            { id: '250M€ - 500M€', name: '250M€ - 500M€' },
+                            { id: '500M€ - 1B€', name: '500M€ - 1B€' },
+                            { id: '> 1B€', name: '> 1B€' },
+                        ]}
+                        alwaysOn
+                    />
+                    <SelectInput
+                        source="Simultaneous offer made or registered abroad "
+                        label="Simultaneous offer made or registered abroad"
+                        choices={[
+                            { id: 'No', name: 'No' },
+                            { id: 'Offer for Target shares made in the US (exemption from registration)', name: 'Offer for Target shares made in the US (exemption from registration)' },
+                            { id: 'Private placement of Bidder\'s shares in the US', name: 'Private placement of Bidder\'s shares in the US' },
+                            { id: 'Offer for Target shares registered in the US', name: 'Offer for Target shares registered in the US' },
+                            { id: 'Offer on a listed subsidiary of Target', name: 'Offer on a listed subsidiary of Target' },
+                        ]}
+                        alwaysOn
+                    />
+                    <SelectInput
+                        source="FILTERReimbursement of brokerage fee"
+                        label="Reimbursement of brokerage fees"
+                        choices={[
+                            { id: 'Yes', name: 'Yes' },
+                            { id: 'No', name: 'No' },
+                        ]}
+                        alwaysOn
+                    />
+                    <SelectInput
+                        source="FILTERAccess to data room and inside information (other than Target BP)"
+                        label="Access to data room and inside information (other than Target BP)"
+                        choices={[
+                            { id: 'Yes', name: 'Yes' },
+                            { id: 'No', name: 'No' },
+                        ]}
+                        alwaysOn
+                    />
+                    <SelectInput
+                        source="FILTER Bidder - Communication of the Business Plan or not"
+                        label="Bidder - Communication of the Business Plan or not"
+                        choices={[
+                            { id: 'Analyst consensus', name: 'Analyst consensus' },
+                            { id: 'Bidder BP', name: 'Bidder BP' },
+                            { id: 'Target BP', name: 'Target BP' },
+                            { id: 'Other', name: 'Other' },
+                            { id: 'Target BP and Bidder BP', name: 'Target BP and Bidder BP' },
+                        ]}
+                        alwaysOn
+                    />
+                    <SelectInput
+                        source="FILTER Ind. Expert - Communication of the Business Plan or not"
+                        label="Ind. Expert - Communication of the Business Plan or not"
+                        choices={[
+                            { id: 'Analyst consensus', name: 'Analyst consensus' },
+                            { id: 'Bidder BP', name: 'Bidder BP' },
+                            { id: 'Target BP', name: 'Target BP' },
+                            { id: 'Other', name: 'Other' },
+                            { id: 'Target BP and Bidder BP', name: 'Target BP and Bidder BP' },
+                        ]}
+                        alwaysOn
+                    />
                 </Filter>
                 </TabPanel>
                 <TabPanel value={value} index={9}>
                 <Filter {...props} >
-                    <TextInput source="Amount_gte" label="Min amount" alwaysOn/>
-                    <DateInput source="Clearance Date" alwaysOn/>
+                    <TextInput source="SPOT_gte" label="TODO" alwaysOn/>
+                </Filter>
+                </TabPanel>
+                <TabPanel value={value} index={10}>
+                <Filter {...props} >
+                    <TextInput source="FILTER Initial_gte" label="Initial" alwaysOn/>
+                    <TextInput source="FILTER At filing_gte" label="At filing" alwaysOn/>
+                </Filter>
+                </TabPanel>
+                <TabPanel value={value} index={11}>
+                <Filter {...props} >
                     <SelectInput
-                        source="Fairness opinion Yes/No"
+                        source="FILTERMarket Purchase during the offer period (other than during the offer)"
+                        label="Market Purchase during the offer period (other than during the offer)"
+                        choices={[
+                            { id: 'Yes', name: 'Yes' },
+                            { id: 'No', name: 'No' },
+                        ]}
+                        alwaysOn
+                    />
+                </Filter>
+                </TabPanel>
+                <TabPanel value={value} index={12}>
+                <Filter {...props} >
+                    <SelectInput
+                        source="FILTERSqueeze out Completed following the Offer"
+                        label="Squeeze out Completed following the Offer"
+                        choices={[
+                            { id: 'Yes', name: 'Yes' },
+                            { id: 'Failed', name: 'Failed' },
+                        ]}
+                        alwaysOn
+                    />
+                    <SelectInput
+                        source="Squeeze out completed following a subsequent offer"
+                        label="Squeeze out completed following a subsequent offer"
+                        choices={[
+                            { id: 'Yes', name: 'Yes' },
+                            { id: 'No', name: 'No' },
+                        ]}
+                        alwaysOn
+                    />
+                    <SelectInput
+                        source="FILTRE Green Mailing preventing to reach 90% "
+                        label="Green Mailing preventing to reach 90%"
+                        choices={[
+                            { id: 'Maybe', name: 'Maybe' },
+                            { id: 'Yes', name: 'Yes' },
+                            { id: 'No', name: 'No' },
+                        ]}
+                        alwaysOn
+                    />
+                </Filter>
+                </TabPanel>
+                <TabPanel value={value} index={13}>
+                <Filter {...props} >
+                    <SelectInput
+                        source="FILTERFairness opinionYes/No"
                         label="Fairness opinion"
                         choices={[
                             { id: 'Yes', name: 'Yes' },
@@ -845,18 +983,118 @@ export default function DealFilter(props) {
                         ]}
                         alwaysOn
                     />
-
                     <SelectInput
-                        source="Simultaneous offer made or registered abroad"
-                        label="Simultaneous offer abroad"
+                        source="AMF request to appoint a new independent expert Yes/No / N/A"
+                        label="AMF request to appoint a new independent expert Yes/No / N/A"
                         choices={[
+                            { id: 'Yes', name: 'Yes' },
                             { id: 'No', name: 'No' },
-                            { id: 'Offer for Target shares made in the US (exemption from registration)', name: 'Offer for Target shares made in the US (exemption from registration)' },
-                            { id: 'Private placement of Bidder\'s shares in the US', name: 'Private placement of Bidder\'s shares in the US' },
-                            { id: 'Offer for Target shares registered in the US', name: 'Offer for Target shares registered in the US' },
-                            { id: 'Offer on a listed subsidiary of Target', name: 'Offer on a listed subsidiary of Target' },
-                            { id: 'Offer for Target shares made in the US (exemption from registration) and in Switzerland', name: 'Offer for Target shares made in the US (exemption from registration) and in Switzerland' },
                         ]}
+                        alwaysOn
+                    />
+                    <SelectInput
+                        source="AMF objection to the appointment of the new independent expert proposed by Target upon AMF's requestYes/No/ N/A"
+                        label="AMF objection to the appointment of the new independent expert proposed by Target upon AMF's requestYes/No/ N/A"
+                        choices={[
+                            { id: 'Yes', name: 'Yes' },
+                            { id: 'No', name: 'No' },
+                        ]}
+                        alwaysOn
+                    />
+                    <SelectInput
+                        source="AMF objection to the appointment of the independent expert proposed by Target if no ad hoc committee was set upYes/No/N/A"
+                        label="AMF objection to the appointment of the independent expert proposed by Target if no ad hoc committee was set upYes/No/N/A"
+                        choices={[
+                            { id: 'Yes', name: 'Yes' },
+                            { id: 'No', name: 'No' },
+                        ]}
+                        alwaysOn
+                    />
+                </Filter>
+                </TabPanel>
+                <TabPanel value={value} index={14}>
+                <Filter {...props} >
+                    <SelectInput
+                        source="FILTERAd Hoc Committee"
+                        label="Ad Hoc Committee"
+                        choices={[
+                            { id: 'Yes', name: 'Yes' },
+                            { id: 'No', name: 'No' },
+                        ]}
+                        alwaysOn
+                    />
+                    <SelectInput
+                        source="Conflicted Directors if disclosed as such in the offer document"
+                        label="Conflicted Directors if disclosed as such in the offer document"
+                        choices={[
+                            { id: 'Yes', name: 'Yes' },
+                            { id: 'No', name: 'No' },
+                        ]}
+                        alwaysOn
+                    />
+                    <SelectInput
+                        source="FILTER Abstention of the Disclosed Conflicted Directors "
+                        label="Abstention of the Disclosed Conflicted Directors"
+                        choices={[
+                            { id: 'Yes', name: 'Yes' },
+                            { id: 'No', name: 'No' },
+                        ]}
+                        alwaysOn
+                    />
+                    <SelectInput
+                        source="FILTERBoard members' Attendance/Absence"
+                        label="Board members' Attendance/Absence"
+                        choices={[
+                            { id: 'All board members present or represented', name: 'All board members present or represented' },
+                            { id: 'Less than all board members were present or represented', name: 'Less than all board members were present or represented' },
+                        ]}
+                        alwaysOn
+                    />
+                    <SelectInput
+                        source="FILTER Recommendation to tender"
+                        label="Recommendation to tender"
+                        choices={[
+                            { id: 'Majority', name: 'Majority' },
+                            { id: 'Not recommended', name: 'Not recommended' },
+                            { id: 'Unanimous', name: 'Unanimous' },
+                        ]}
+                        alwaysOn
+                    />
+                </Filter>
+                </TabPanel>
+                <TabPanel value={value} index={15}>
+                <Filter {...props} >
+                    {/*<TextInput source="Amount_gte" label="Min amount" alwaysOn/>
+                    <DateInput source="Clearance Date" alwaysOn/>*/}
+                    <SelectInput
+                        source="FILTER Opinion of the workers council on the offer"
+                        label="Opinion of the workers council on the offer"
+                        choices={[
+                            { id: 'Favorable', name: 'Favorable' },
+                            { id: 'Negative', name: 'Negative' },
+                            { id: 'Other', name: 'Other' },
+                        ]}
+                        alwaysOn
+                    />
+                    <SelectInput
+                        source="FILTER Litigation//Complaints"
+                        label="Litigation//Complaints"
+                        choices={[
+                            { id: 'Yes', name: 'Yes' },
+                            { id: 'No', name: 'No' },
+                            { id: 'Complaints from minority shareholders', name: 'Complaints from minority shareholders' },
+                        ]}
+                       
+                        alwaysOn
+                    />
+                    <SelectInput
+                        source="Deal advised by Bredin Prat "
+                        label="Deal advised by Bredin Prat"
+                        choices={[
+                            { id: 'Yes', name: 'Yes' },
+                            { id: 'No', name: 'No' },
+                        ]}
+                       
                         alwaysOn
                     />
                 </Filter>
