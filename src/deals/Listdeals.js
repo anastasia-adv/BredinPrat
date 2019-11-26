@@ -161,7 +161,8 @@ class DealList extends React.Component {
 
     render() {
         const{...props} =  this.props;
-        console.log(this.props);
+        const values = queryString.parse(this.props.location.search)
+        console.log(localStorage)
         /*var col = [...this.state.display_col]
         const ColToDisplay = col.flat(1).map((elt, i) => {
             console.log(elt);
@@ -177,20 +178,32 @@ class DealList extends React.Component {
             console.log(record[source]);
             if(record[source] == "N/A"){
                 return <span>N/A</span>;
+            }else{
+                if(record[source] == ""){
+                    return <span></span>;
+                }else{
+                    if(source == "Lien à la décision de conformité de l'AMF "){
+                        return <a href={record[source]} target="_blank">Conformité</a>;
+                    }
+                    if(source == "Lien à la note d'information"){
+                        return <a href={record[source]} target="_blank">Note d'information</a>;
+                    }
+                    if(source == "Lien à la note en réponse"){
+                        return <a href={record[source]} target="_blank">Note en réponse</a>;
+                    }
+                    if(source == "Lien à la décision de mise en œuvre du squeeze out"){
+                        return <a href={record[source]} target="_blank">Retrait obligatoire</a>;
+                    }
+                    if(source == "Lien au complément de la note d'information (surenchère)"){
+                        return <a href={record[source]} target="_blank">Lien</a>;
+                    }
+                    if(source == "Lien au complément de la note d'information 2 - (surenchère)"){
+                        return <a href={record[source]} target="_blank">Lien</a>;
+                    }
+                }
             }
-            if(source == "Lien à la décision de conformité de l'AMF"){
-                return <a href={record[source]} target="_blank">Conformité</a>;
-            }
-            if(source == "Lien à la note d'information "){
-                return <a href={record[source]} target="_blank">Note d'information</a>;
-            }
-            if(source == "Lien à la note en réponse "){
-                return <a href={record[source]} target="_blank">Note en réponse</a>;
-            }
-            if(source == "Lien à la décision de mise en œuvre du squeeze out "){
-                return <a href={record[source]} target="_blank">Retrait obligatoire</a>;
-            }
-        
+            
+           
         }
         var fieldsToSend = []
         const ColToDisplay = col.map((elt, i) => {
@@ -259,8 +272,10 @@ class DealList extends React.Component {
            //var buf = new Buffer.from(JSON.stringify(csv));
            var blob = new Blob([JSON.stringify(csv, null, 2)], {type : 'application/json'});
            let formData = new FormData();
+           formData.append('filter', values.filter);
+           formData.append('user', localStorage.getItem("username"));
            formData.append('blob', blob, 'test.csv');
-           /*axios({
+           axios({
             method: 'post',
             url: 'http://localhost:5000/email',
             data: formData,
@@ -272,7 +287,7 @@ class DealList extends React.Component {
             console.log(error);
           }).then(response => {
               console.log(response);
-          });*/
+          });
         }
 
        

@@ -16,7 +16,7 @@ server.use(middlewares)
 
 server.use(jsonServer.bodyParser)
 server.post('/email', upload.single('blob'), function(req, res){
-  
+  console.log(req.body);
   var transporter = nodemailer.createTransport({
     host: 'smtp.orange.fr',
     port: 25,
@@ -42,14 +42,13 @@ server.post('/email', upload.single('blob'), function(req, res){
     }]
   };
   
-  transporter.sendMail(mailOptions, function(error, info){
+  /*transporter.sendMail(mailOptions, function(error, info){
     if (error) {
       console.log(error);
     } else {
       console.log('Email sent: ' + info.response);
     }
-  });
-
+  });*/
   res.end('email sent');
 })
 

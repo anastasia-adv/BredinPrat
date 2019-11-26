@@ -32,53 +32,19 @@ class MyLoginPage extends Component {
         }
     }
 
-    /*handleSubmit(event) {
-        event.preventDefault();
-        console.log(this.state);
-        console.log(event);
-        axios({
-            method: 'post',
-            url: 'http://localhost:5000/login',
-            data: {
-                username: this.state.username,
-                password: this.state.password
-            },
-            config: { headers: {'Content-Type': 'application/json' }},
-            validateStatus: (status) => {
-              return true; 
-            },
-          }).catch(error => {
-            console.log(error);
-          }).then(res => {
-              console.log(res);
-              if(res.data.signin == true){
-                this.props.history.push('/')
-              }
-          });
-      }*/
-
-      handleSubmit = (e) => {
-        e.preventDefault();
-        // gather your data/credentials here
-        const credentials = {
-            username: this.state.username,
-            password: this.state.password 
-        };
-      
-        // Dispatch the userLogin action (injected by connect)
-        this.props.userLogin(credentials);
-        setTimeout(() => {
-            this.props.history.push('/')
-          }, 1500);
-
-        //this.props.history.push('/');
-       /* if (localStorage.getItem("username")) {
-            this.props.userLogin(credentials, "http://localhost:3000/");
-            //this.props.history.push('/')
-          }else {
-            this.props.userLogin(credentials);
-          }*/
-        
+    handleSubmit = (e) => {
+    e.preventDefault();
+    // gather your data/credentials here
+    const credentials = {
+        username: this.state.username,
+        password: this.state.password 
+    };
+    
+    // Dispatch the userLogin action (injected by connect)
+    this.props.userLogin(credentials);
+    setTimeout(() => {
+        this.props.history.push('/')
+        }, 1500);
     }
 
     sendDate(){

@@ -36,6 +36,10 @@ code {
   width: 100%;
 }
 
+.filters-grid{
+  margin: 0px !important;
+}
+
 .clear-filters{
   left: 224px;
   top: -37px;
@@ -173,4 +177,17 @@ footer{
 
 td span{
   font-size: 14px !important;
+}
+
+.filter-field label{
+  position: relative;
+}
+
+.info{
+  position: relative;
+  float: right;
+}
+
+.offer-grid{
+  margin: 0px !important;
 }

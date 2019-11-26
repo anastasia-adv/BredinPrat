@@ -3,19 +3,19 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import { Filter, CheckboxGroupInput, DateInput, RadioButtonGroupInput, SelectInput, TextInput, List, Datagrid, TextField, NumberField, FilterForm } from 'react-admin';
 import Button from '@material-ui/core/Button';
+import InfoIcon from '@material-ui/icons/Info';
+import Tooltip from '@material-ui/core/Tooltip';
 import AppBar from '@material-ui/core/AppBar';
+import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Grid, Row, Col } from 'react-flexbox-grid';
-import Card from '@material-ui/core/Card';
 import Box from '@material-ui/core/Box';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import CardContent from '@material-ui/core/CardContent';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -81,7 +81,9 @@ export default function DealFilter(props) {
                             'Target Type' : '',
                             'q': ''
                         })}>Clear fields</Button>
-            <ExpansionPanel className="filters-panel">
+            <Grid className="filters-grid">
+                <Row start="xs">
+                <ExpansionPanel className="filters-panel">
                 <ExpansionPanelSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1a-content"
@@ -110,6 +112,11 @@ export default function DealFilter(props) {
                     </Tabs>
                 </AppBar>
                 <TabPanel value={value} index={0}>
+                <Tooltip title="Add" placement="bottom-start" className="info">
+                    <IconButton aria-label="info">
+                        <InfoIcon />
+                    </IconButton>
+                </Tooltip>
                 <Filter {...props} >
                     <SelectInput
                         source="Alternext (devenu Euronext Growth)/ Euronext"
@@ -1100,6 +1107,9 @@ export default function DealFilter(props) {
                 </Filter>
                 </TabPanel>
             </ExpansionPanel>
+                </Row>
+            </Grid>
+           
         </div>
     );
 }

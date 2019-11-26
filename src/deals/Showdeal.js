@@ -1,5 +1,6 @@
 import React from 'react';
-import { Show, SimpleShowLayout, TextField, DateField, EditButton, RichTextField, NumberField, TabbedShowLayout, Tab } from 'react-admin';
+import { Show, TabbedShowLayoutTabs, TextField, DateField, EditButton, RichTextField, NumberField, TabbedShowLayout, Tab } from 'react-admin';
+import { Grid, Row, Col } from 'react-flexbox-grid';
 
 const DealTitle = ({ record }) => {
     console.log(record);
@@ -7,9 +8,11 @@ const DealTitle = ({ record }) => {
 };
 
 export const DealShow = (props) => (
-    <Show {...props} title={<DealTitle />}>
-        <TabbedShowLayout >
-            <Tab label="General Info">
+        <Grid className="offer-grid">
+           <Show {...props} title={<DealTitle />}>
+        
+            <TabbedShowLayout tabs={<TabbedShowLayoutTabs scrollable scrollButtons={'on'} {...props} />}>
+            <Tab label="MAIN CHARACTERISTICS">
                 <TextField source="Target" />
                 <TextField source="Alternext (devenu Euronext Growth)/ Euronext" />
                 <TextField source="Sector" />
@@ -21,7 +24,7 @@ export const DealShow = (props) => (
                 <TextField source="Simultaneous offer made or registered abroad" />
                 <TextField source="Offers filed by PE Funds, Family office or Venture Capital Funds" />
             </Tab>
-            <Tab label="Other Info 1" >
+            <Tab label="BLOCK PURCHASE" >
                 <TextField source="Mandatory /Voluntary " />
                 <TextField source="Put up Shut up" />
                 <TextField source="Friendly/Non-solicited " />
@@ -35,13 +38,55 @@ export const DealShow = (props) => (
                 <TextField source="Price Adjustment of the Offer Price (Complément / ajustement de prix)" />
                 <TextField source="Squeeze out Kicker% of the Offer Price" />
             </Tab>
-            <Tab label="Other info 2" path="body">
+            <Tab label="OFFER PRICE">
                 <TextField source="Clearance Date" />
                 <TextField source="Offer Type Comments" />
                 <NumberField source="Amount" options={{ style: 'currency', currency: 'EUR' }} />
             </Tab> 
+            <Tab label="OTHER AGREEMENTS" >
+
+            </Tab>
+            <Tab label="PRE-OFFER CONDITIONS" >
+
+            </Tab>
+            <Tab label="OFFER CONDITIONS" >
+
+            </Tab>
+            <Tab label="BIDDER'S INTENTIONS" >
+
+            </Tab>
+            <Tab label="SHARES TARGETED OR EXCLUDED BY THE OFFER" >
+
+            </Tab>
+            <Tab label="CW - DN" >
+
+            </Tab>
+            <Tab label="PREMIUM" >
+
+            </Tab>
+            <Tab label="STAKE OWNED BY THE BIDDER" >
+
+            </Tab>
+            <Tab label="EL" >
+
+            </Tab>
+            <Tab label="SQUEEZE OUT" >
+
+            </Tab>
+            <Tab label="FAIRNESS OPINION" >
+
+            </Tab>
+            <Tab label="TARGET BOARD APPROVAL PROCESS" >
+
+            </Tab>
+            <Tab label="FR - GC" >
+
+            </Tab>
+
         </TabbedShowLayout >
+        
     </Show>
+    </Grid>
 );
 
 export default DealShow;

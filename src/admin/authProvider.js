@@ -24,6 +24,7 @@ export default (type, params) => {
             }
             localStorage.setItem('username', res.data.username);
             localStorage.setItem('role', res.data.role);
+            localStorage.setItem('id', res.data.id);
             console.log(localStorage);
             return Promise.resolve();
             //return res.redirect('http://localhost:3000/');
@@ -32,6 +33,7 @@ export default (type, params) => {
     if (type === AUTH_LOGOUT) {
         localStorage.removeItem('username');
         localStorage.removeItem('role');
+        localStorage.removeItem('id');
         return Promise.resolve();
     }
     if (type === AUTH_ERROR) {
