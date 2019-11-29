@@ -1,9 +1,22 @@
-import { AUTH_LOGIN, AUTH_LOGOUT, AUTH_ERROR, AUTH_GET_PERMISSIONS, AUTH_CHECK } from 'react-admin';
+import { AUTH_LOGIN, AUTH_LOGOUT, AUTH_ERROR, AUTH_GET_PERMISSIONS, AUTH_CHECK, useMutation } from 'react-admin';
 import axios from 'axios';
+
+function getDate() {
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    var dateTime = date+' '+time;
+    return [dateTime, today.getMinutes()];
+}
+
+var loginMin;
 
 export default (type, params) => {
     if (type === AUTH_LOGIN) {
         const { username, password } = params;
+        var login = getDate();
+        var loginDate = login[0];
+        loginMin = login[1]; 
         axios({
             method: 'post',
             url: 'http://localhost:5000/login',
@@ -15,26 +28,52 @@ export default (type, params) => {
           }).catch(error => {
             console.log(error);
           }).then(res => {
-              console.log(res);
-              /*if(res.data.signin == true){
-                this.props.history.push('/')
-              }*/
-              if (res.status < 200 || res.status >= 300) {
+            console.log(res.data);
+            fetch('http://localhost:5000/activities', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({userId: res.data.id, logindate: loginDate})
+            }).then((res) =>{
+                res.json().then((data) => {
+                    console.log(data);
+                    localStorage.setItem('sessionId', data.id);
+                });
+               
+            });
+
+            if (res.status < 200 || res.status >= 300) {
                 throw new Error(res.statusText);
             }
             localStorage.setItem('username', res.data.username);
             localStorage.setItem('role', res.data.role);
             localStorage.setItem('id', res.data.id);
+            
             console.log(localStorage);
             return Promise.resolve();
             //return res.redirect('http://localhost:3000/');
           });
     }
     if (type === AUTH_LOGOUT) {
+        var logout = getDate();
+        var logoutMin = logout[1];
+        var timeSpent = logoutMin - loginMin;
+        fetch('http://localhost:5000/activities/' + localStorage.getItem('sessionId'), {
+            method: 'PATCH',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({timeSpent: timeSpent})
+        })
         localStorage.removeItem('username');
         localStorage.removeItem('role');
         localStorage.removeItem('id');
+        localStorage.removeItem('sessionId');
         return Promise.resolve();
+        
     }
     if (type === AUTH_ERROR) {
         // ...

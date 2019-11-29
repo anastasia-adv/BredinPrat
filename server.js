@@ -54,7 +54,6 @@ server.post('/email', upload.single('blob'), function(req, res){
 
 //server.post('/login', (req, res) => auth.postSignIn(req, res));
 server.post('/login', function(req, res){
-  console.log("toto");
   console.log(req.body);
   if (req.body.username && req.body.password) {
 		request('http://localhost:5000/users?username=' + req.body.username, (error, httpResponse, body) => {
@@ -69,17 +68,26 @@ server.post('/login', function(req, res){
       const user = JSON.parse(body);
       /*console.log(user[0].password);
       console.log(req.body.password);*/
-      bcrypt.hash("adv1", 10, function(err, hash) {
+      bcrypt.hash("adv2", 10, function(err, hash) {
         console.log(hash);
       });
-			if (!bcrypt.compareSync(req.body.password, user[0].password)) {
-				logger.warn('signin() - user authentication failed : ' + user[0].id);
-				return res.status(200).json({ signin: false });
-			}
-			logger.warn('signin() - user authentificated successfully : ' + user[0].id);
-			return res.status(200).json({
-				signin: true, admin: user[0].admin, id: user[0].id, username: user[0].username, role: user[0].role,
-			});
+      var i = 0;
+      while(i < user.length){
+        /*if (!bcrypt.compareSync(req.body.password, user[i].password)) {
+          logger.warn('signin() - user authentication failed : ' + user[i].id);
+          return res.status(200).json({ signin: false });
+          break;
+        }*/
+        if(bcrypt.compareSync(req.body.password, user[i].password)){
+          logger.warn('signin() - user authentificated successfully : ' + user[i].id);
+          //break;
+          return res.status(200).json({
+            signin: true, id: user[i].id, username: user[i].username, role: user[i].role,
+          });
+         
+        }
+        i = i + 1;
+      }
 		});
 	}
 })

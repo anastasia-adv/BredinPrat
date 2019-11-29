@@ -13,6 +13,58 @@ code {
     monospace;
 }
 
+/* -- Home -- */
+
+.card-height{
+  height: 100%;
+}
+
+/* -- End Home -- */
+
+/* -- Tender Offers -- */
+
+.alloffers thead{
+  background-color: #f5f5f5;
+}
+.alloffers th{
+  font-weight: bold;
+}
+
+/* -- End Tender Offers -- */
+
+/* -- Filters -- */
+
+/*.info-peFunds{
+  position: absolute !important;
+  bottom: 28%;
+  left: 24%;
+}*/
+
+/* -- End Filter -- */
+
+/* -- Select Col -- */
+.col-list{
+  padding-left: 0 !important;
+}
+
+.col-select{
+  display: block !important;
+}
+/* -- End Select Col -- */
+
+/* -- Show Offer -- */
+
+/* -- End Show Offer -- */
+
+/* -- Other -- */
+div[class^="MuiSnackbarContent-message"]{
+  display: none !important;
+}
+div[class^="Connect-Notification--warning-"]{
+  background: transparent !important;
+}
+/* -- End Other -- */
+
 .col-selection{
   height: 100%;
   width: 200px;
@@ -102,9 +154,7 @@ table{
   margin-top: 3%;
 }
 
-.col-list{
-  padding-left: 0 !important;
-}
+
 
 .instruction{
   padding: 3%;

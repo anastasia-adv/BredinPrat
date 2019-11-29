@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { userLogin } from 'react-admin';
+import { userLogin  } from 'react-admin';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import Card from '@material-ui/core/Card';
 import TextField from '@material-ui/core/TextField';
@@ -8,57 +8,52 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import { withRouter } from "react-router-dom";
 
-
 class MyLoginPage extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            username:"",
-            password:""
+            username: "",
+            password: ""
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.sendDate = this.sendDate.bind(this);
+        //this.sendDate = this.sendDate.bind(this);
     }
 
-    handleChange(event, type){
-        if(type == "username"){
-            this.setState({username : event.target.value});
+    handleChange(event, type) {
+        if (type == "username") {
+            this.setState({ username: event.target.value });
         }
-        if(type == "pwd"){
-            this.setState({password : event.target.value});
+        if (type == "pwd") {
+            this.setState({ password: event.target.value });
         }
     }
-
-    handleSubmit = (e) => {
-    e.preventDefault();
-    // gather your data/credentials here
-    const credentials = {
-        username: this.state.username,
-        password: this.state.password 
-    };
     
-    // Dispatch the userLogin action (injected by connect)
-    this.props.userLogin(credentials);
-    setTimeout(() => {
-        this.props.history.push('/')
+    handleSubmit = (e) => {
+        e.preventDefault();
+
+        // gather your data/credentials here
+        const credentials = {
+            username: this.state.username,
+            password: this.state.password,
+        };
+
+        // Dispatch the userLogin action (injected by connect)
+        this.props.userLogin(credentials);
+
+        setTimeout(() => {
+            if (localStorage.getItem("id")) {
+                console.log("login ok");
+                this.props.history.push('/tenderoffers')
+            }
         }, 1500);
     }
 
-    sendDate(){
-        var today = new Date();
-        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        var dateTime = date+' '+time;
-        console.log(dateTime);
-    }
-    
-     
     render() {
         return (
-            
+
             <div className="login-back">
                 <Grid fluid>
                     <Row>
@@ -66,7 +61,7 @@ class MyLoginPage extends Component {
                             <Card className="login-form">
                                 {/*<CardMedia component="img" image="Logo_BP.png" className="BP_logo"/>*/}
                                 <CardContent>
-                                    <img src="Logo_BP.png" className="BP_logo"/>
+                                    <img src="Logo_BP.png" className="BP_logo" />
                                     <form onSubmit={this.handleSubmit}>
                                         <Row>
                                             <Col md={12}>
@@ -97,7 +92,7 @@ class MyLoginPage extends Component {
                                                 />
                                             </Col>
                                             <Col md={12}>
-                                                <Button type="submit" className="login-btn" onClick={this.sendDate()}>
+                                                <Button type="submit" className="login-btn" >
                                                     Login
                                                 </Button>
                                             </Col>
